@@ -1,12 +1,8 @@
 package plchelper;
 
-import java.io.File;
-import java.io.FileWriter;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -30,7 +26,6 @@ public class PLCHelper extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         chooser.setAcceptAllFileFilterUsed(false);
         chooser.setFileFilter(new FileNameExtensionFilter("PDF files", "pdf"));
-        chooser.addChoosableFileFilter(new FileNameExtensionFilter("XML files", "xml"));
     }
 
     @SuppressWarnings("unchecked")
@@ -45,6 +40,7 @@ public class PLCHelper extends javax.swing.JFrame {
         jList1 = new javax.swing.JList<>();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
+        jButton1 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -89,6 +85,13 @@ public class PLCHelper extends javax.swing.JFrame {
 
         jSplitPane1.setRightComponent(jScrollPane2);
 
+        jButton1.setText("Refresh");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         jMenu1.setText("File");
 
         jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
@@ -122,6 +125,8 @@ public class PLCHelper extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 453, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(dToK)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(kToD)
@@ -134,9 +139,10 @@ public class PLCHelper extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(kToD)
-                    .addComponent(dToK))
+                    .addComponent(dToK)
+                    .addComponent(jButton1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSplitPane1)
+                .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -174,66 +180,7 @@ public class PLCHelper extends javax.swing.JFrame {
                     definitionsList.clear();
                     keysList.clear();
                     try {
-                        if (chooser.getSelectedFile().getPath().endsWith(".xml")) {
-                            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-                            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-                            Document doc = dBuilder.parse(chooser.getSelectedFile());
-
-                            doc.getDocumentElement().normalize();
-                            NodeList cells = doc.getElementsByTagName("Cell");
-
-                            String currentEntry = "";
-                            LinkedList<String> keys = new LinkedList<>();
-                            for (int i = 0; i < cells.getLength(); i++) {
-                                if (cells.item(i).getChildNodes().getLength() > 0) {
-                                    NodeList strings = cells.item(i).getFirstChild().getChildNodes();
-                                    for (int j = 0; j < strings.getLength(); j++) {
-                                        Node current = strings.item(j);
-                                        if (current.getNodeName().equals("Font")
-                                                && (current.getAttributes()
-                                                .getNamedItem("html:Face")
-                                                .getTextContent().contains("Times")
-                                                || current.getAttributes()
-                                                .getNamedItem("html:Face")
-                                                .getTextContent().contains("Courier"))) {
-                                            String currentString = current.getTextContent();
-
-                                            if (currentString.contains("•")) {
-                                                //System.out.println(currentEntry);
-                                                currentString = currentString.substring(
-                                                        currentString.indexOf("•"));
-                                                if (currentEntry.length() > 0 && keys.size() > 0) {
-                                                    String key = "";
-                                                    for (String dummy : keys) {
-                                                        key += dummy + " - ";
-                                                    }
-                                                    definitionsList.add(currentEntry);
-                                                    keysList.add(key);
-                                                }
-                                                currentEntry = "";
-                                                keys.clear();
-                                            }
-                                            if (!current.getAttributes()
-                                                    .getNamedItem("html:Face")
-                                                    .getTextContent().contains("Bold")) {
-                                                currentEntry += currentString;
-                                            } else {
-                                                currentEntry += currentString.replaceAll("[^\\s]", "_");
-                                                keys.add(currentString);
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                            if (currentEntry.length() > 0 && keys.size() > 0) {
-                                String key = "";
-                                for (String dummy : keys) {
-                                    key += dummy + " - ";
-                                }
-                                definitionsList.add(currentEntry);
-                                keysList.add(key);
-                            }
-                        } else if (chooser.getSelectedFile().getPath().endsWith(".pdf")) {
+                        if (chooser.getSelectedFile().getPath().endsWith(".pdf")) {
                             PDFText2HTML stripper = new PDFText2HTML();
                             PDDocument pdDoc = PDDocument.load(chooser.getSelectedFile());
                             stripper.setStartPage(1);
@@ -256,14 +203,17 @@ public class PLCHelper extends javax.swing.JFrame {
                             LinkedList<String> keys = new LinkedList<>();
                             for (int i = 0; i < p.getLength(); i++) {
                                 if (p.item(i).getChildNodes().getLength() > 0) {
+                                    // Skip topic header
                                     if (p.item(i).getChildNodes().getLength() == 1
                                             && p.item(i).getChildNodes().item(0).getNodeName().equals("b")) {
                                         continue;
                                     }
+                                    // Skip footer
                                     if (p.item(i).getTextContent()
                                             .toLowerCase().contains("csc")) {
                                         continue;
                                     }
+                                    
                                     NodeList children = p.item(i).getChildNodes();
                                     for (int j = 0; j < children.getLength(); j++) {
                                         Node child = children.item(j);
@@ -271,7 +221,6 @@ public class PLCHelper extends javax.swing.JFrame {
                                                 .replaceAll("\n", "");
 
                                         if (currentString.contains("•")) {
-                                            //System.out.println(currentEntry);
                                             currentString = currentString.substring(
                                                     currentString.indexOf("•"));
                                             if (currentEntry.length() > 0 && keys.size() > 0) {
@@ -319,6 +268,10 @@ public class PLCHelper extends javax.swing.JFrame {
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         System.exit(0);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        refreshList();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     void refreshList() {
         DefaultListModel listModel = (DefaultListModel) jList1.getModel();
@@ -373,6 +326,7 @@ public class PLCHelper extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JRadioButton dToK;
+    private javax.swing.JButton jButton1;
     private javax.swing.JList<String> jList1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
