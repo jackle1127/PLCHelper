@@ -1,0 +1,2383 @@
+<body>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-1 10/15
+Programming Language Concepts
+</p>
+<p><b>6. DATA TYPES</b></p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-2 10/15
+Programming Language Concepts
+</p>
+<p><b>Introduction
+</b></p>
+<p>&#8226; A <b>data type</b> defines a collection of values and a set of operations on those val-
+ues.
+</p>
+<p>&#8226; In the earliest languages, all data structures had to be built from a few basic lan-
+guage-supported data structures.
+</p>
+<p>In pre-90 Fortrans, linked lists and binary trees were implemented using arrays.
+</p>
+<p>&#8226; COBOL improved on the limited data types of Fortran I:
+</p>
+<p>Programmers could specify the accuracy of decimal numbers.
+Data could be stored in records.
+</p>
+<p>&#8226; PL/I allowed the programmer to specify the accuracy of integer and floating-
+point types.
+</p>
+<p>&#8226; The designers of PL/I included many data types. A better approach, introduced
+in ALGOL 68, is to allow the programmer to define types by combining a few
+basic types using structure-defining operators.
+</p>
+<p>&#8226; Advantages of user-defined types:
+</p>
+<p>Improves readability through the use of meaningful type names.
+Allows type checking of the variables in a particular category of use.
+Makes it possible to modify the type of many variables by changing only a sin-
+</p>
+<p>gle type definition.
+</p>
+<p>&#8226; The next step was the abstract data type, which allows the interface of a type to
+be separated from the representation of the type.</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-3 10/15
+Programming Language Concepts
+</p>
+<p><b>Introduction (Continued)
+</b></p>
+<p>&#8226; Data types are either nonstructured (scalar) or structured.
+</p>
+<p>&#8226; The two most common structured data types in imperative languages are arrays
+and records, although the popularity of associative arrays has increased signifi-
+cantly in recent years.
+</p>
+<p>&#8226; Lists have been a central part of functional languages since 1959 (Lisp). Over
+the last decade, the increasing popularity of functional programming has led to
+lists being added to primarily imperative languages.
+</p>
+<p>&#8226; Structured data types (and in some cases, scalar types) are specified by type
+operators.
+</p>
+<p>In C, type operators include brackets and asterisks, which are used to specify
+arrays and pointers.
+</p>
+<p>&#8226; Variables often have descriptors. A <b>descriptor</b> is a collection of the attributes of
+a variable.
+</p>
+<p>If the attributes are all static, descriptors are required only at compile time. They
+are maintained by the compiler, usually as part of the symbol table.
+</p>
+<p>For dynamic attributes, part or all of the descriptor must be maintained during
+execution.
+</p>
+<p>In either case, descriptors are used for type checking and building code for allo-
+cation and deallocation.</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-4 10/15
+Programming Language Concepts
+</p>
+<p><b>Primitive Data Types
+</b></p>
+<p>&#8226; Data types that are not defined in terms of other types are called <b>primitive data
+types.
+</b></p>
+<p>&#8226; Some primitive types&#8212;including most integer types&#8212;closely reflect the under-
+lying hardware. Others require only a little non-hardware support for their
+implementation.
+</p>
+<p>&#8226; Some early programming languages had only numeric primitive types. These
+types still play a central role in contemporary languages.</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-5 10/15
+Programming Language Concepts
+</p>
+<p><b>Integer Types
+</b></p>
+<p>&#8226; The most common primitive numeric data type is <b>integer.
+</b></p>
+<p>&#8226; Computers normally support several sizes of integers, so languages often have
+more than one integer type. Java provides four signed integer types: <b>byte</b>,
+<b>short</b>, <b>int</b>, and <b>long</b>.
+</p>
+<p>&#8226; Some languages, such as C++ and C#, also have unsigned integer types, which
+are used primarily when individual bits need to be manipulated.
+</p>
+<p>&#8226; Most integer types are supported directly by hardware, although some&#8212;includ-
+ing Python&#8217;s long integer type (also found in F#)&#8212;are not.
+</p>
+<p>&#8226; A signed integer value is represented in a computer by a string of bits, with one
+of the bits, typically the leftmost, representing the sign.
+</p>
+<p>&#8226; Ways to store negative integers:
+</p>
+<p>Sign-magnitude notation
+Two&#8217;s-complement notation
+One&#8217;s-complement notation
+</p>
+<p>&#8226; In <b>sign-magnitude</b> notation, the sign bit is set to indicate negative and the
+remainder of the bit string represents the absolute value of the number.
+</p>
+<p>Sign magnitude does not lend itself to computer arithmetic.
+</p>
+<p>&#8226; In <b>two&#8217;s-complement</b> notation, the representation of a negative integer is
+formed by adding 1 to the logical complement of the number&#8217;s absolute value.
+</p>
+<p>Two&#8217;s complement is used by most modern computers. 
+Two&#8217;s complement is convenient for addition and subtraction.
+</p>
+<p>&#8226; In <b>one&#8217;s-complement</b> notation, a negative integer is stored as the logical com-
+plement of its absolute value.
+</p>
+<p>One&#8217;s complement is still used by some computers.
+One&#8217;s complement notation has the disadvantage that 0 has two representations.</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-6 10/15
+Programming Language Concepts
+</p>
+<p><b>Floating-Point Types
+</b></p>
+<p>&#8226; <b>Floating-point</b> data types model real numbers, but the floating-point representa-
+tion of most real numbers is only an approximation.
+</p>
+<p>&#8226; Floating-point numbers are normally stored in binary, which exacerbates the
+problem. Even the value 0.1 in decimal cannot be represented by a finite number
+of binary digits.
+</p>
+<p>&#8226; Another problem with floating-point types is the loss of accuracy through arith-
+metic operations.
+</p>
+<p>&#8226; Floating-point values are represented as fractions and exponents, in a form of
+scientific notation. Language implementers normally use whatever representa-
+tion is supported by the hardware.
+</p>
+<p>Older computers used a variety of different floating-point representations.
+Most newer machines use the IEEE 754 format. (Java requires this format.)
+</p>
+<p>&#8226; The IEEE standard has two formats for storing floating-point numbers:</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-7 10/15
+Programming Language Concepts
+</p>
+<p><b>Floating-Point Types (Continued)
+</b></p>
+<p>&#8226; Most languages include two floating-point types:
+</p>
+<p><b>float</b> values are usually stored in four bytes of memory.
+<b>double</b> values usually occupy twice as much storage and provide a fraction
+</p>
+<p>with at least twice the number of bits.
+</p>
+<p>&#8226; The collection of values that can be represented by a floating-point type is
+defined in terms of precision and range.
+</p>
+<p><b>Precision:</b> The accuracy of the fractional part of a value.
+<b>Range:</b> A combination of the range of fractions, and, more importantly, the
+</p>
+<p>range of exponents.</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-8 10/15
+Programming Language Concepts
+</p>
+<p><b>Complex Types
+</b></p>
+<p>&#8226; A few languages, including Fortran and Python, provide a complex data type.
+</p>
+<p>&#8226; In Python, the imaginary part of a complex literal is specified by following it
+with j or J, as in (7 + 3j).
+</p>
+<p>&#8226; A complex number is represented internally as an ordered pair of floating-point
+numbers.
+</p>
+<p>&#8226; A language that supports a complex type will normally provide operations that
+perform arithmetic on complex values.</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-9 10/15
+Programming Language Concepts
+</p>
+<p><b>Decimal Types
+</b></p>
+<p>&#8226; Most larger computers that are designed to support business applications have
+hardware support for <b>decimal</b> data types. Decimal types store a fixed number of
+decimal digits, with the decimal point placed at a fixed position.
+</p>
+<p>&#8226; Decimal types are the primary data types for business data processing and are
+therefore essential to COBOL. C# and F# also have decimal types.
+</p>
+<p>&#8226; Decimal types have the advantage of being able to store decimal values pre-
+cisely, which cannot be done in floating-point.
+</p>
+<p>&#8226; Disadvantages of decimal types:
+</p>
+<p>Restricted range of values
+May require more storage than binary representations
+</p>
+<p>&#8226; Decimal types are stored like character strings, using <b>binary coded decimal
+(BCD)</b>, in which each decimal digit is stored in binary. Each digit can be stored
+in a byte, or two digits can be packed into a single byte.
+</p>
+<p>&#8226; Operations on decimal values are done in hardware on machines that have such
+capabilities; otherwise, they are simulated in software.</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-10 10/15
+Programming Language Concepts
+</p>
+<p><b>Boolean Types
+</b></p>
+<p>&#8226; <b>Boolean</b> types provide only the values true and false.
+</p>
+<p>&#8226; Boolean types were introduced in ALGOL 60 and have been included in most
+general-purpose languages designed since then.
+</p>
+<p>&#8226; C89 does not have a Boolean type. Instead, numbers can be used as Boolean val-
+ues. All numbers are considered true except for zero, which is considered false.
+</p>
+<p>&#8226; C99 and C++ have a Boolean type, but still allow numeric expressions to be
+used as Boolean values.
+</p>
+<p>&#8226; Boolean values are often stored in the smallest addressable cell of memory, typ-
+ically a byte.</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-11 10/15
+Programming Language Concepts
+</p>
+<p><b>Character Types
+</b></p>
+<p>&#8226; Most programming languages provide a primitive character type.
+</p>
+<p>&#8226; Characters are stored as numeric codes. Traditional encoding schemes:
+</p>
+<p>ASCII (American Standard Code for Information Interchange), a 7-bit code.
+ISO 8859-1 (Latin-1), an 8-bit code that allows 256 different characters.
+</p>
+<p>&#8226; Unicode, a large character set developed by the Unicode Consortium, is becom-
+ing popular.
+</p>
+<p>Unicode includes characters from most of the world&#8217;s natural languages.
+Unicode was originally limited to 65,536 characters, which could be stored in
+</p>
+<p>two bytes. This encoding is known as UCS-2.
+Unicode currently has over 100,000 characters. Common encodings are UTF-
+</p>
+<p>32/UCS-4 (four bytes) and UTF-8 (variable length, using one to four bytes
+per character).
+</p>
+<p>The first 128 Unicode characters are identical to ASCII, and the first 256 charac-
+ters match ISO 8859-1.
+</p>
+<p>&#8226; Java was the first popular language to use the Unicode character set.
+</p>
+<p>&#8226; JavaScript, Python, Perl, C#, and F# support Unicode to one degree or another.
+</p>
+<p>&#8226; In C and C++, the char type is required to occupy one byte. However, these
+languages provide support for multibyte characters and wide characters.
+</p>
+<p>Multibyte characters can vary in length.
+Wide characters all have the same length, which can be more than one byte.
+</p>
+<p>&#8226; Python has no character type. Instead, characters are treated as strings of length
+1.</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-12 10/15
+Programming Language Concepts
+</p>
+<p><b>Character String Types
+</b></p>
+<p>&#8226; The values of a <b>character string type</b> are sequences of characters.
+</p>
+<p>&#8226; Most important design issues for character string types:
+</p>
+<p>How should strings be stored: as character arrays, values of a primitive string
+type, or objects?
+</p>
+<p>Should strings have static or dynamic length?</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-13 10/15
+Programming Language Concepts
+</p>
+<p><b>Strings and Their Operations
+</b></p>
+<p>&#8226; Common string operations include assignment, catenation, substring reference,
+comparison, and pattern matching. These operations may be supported directly
+in the language or by a function or class library.
+</p>
+<p>&#8226; A <b>substring reference</b> is used to select a portion of a string. In some languages,
+substring references are <b>slices</b> of arrays.
+</p>
+<p>&#8226; Assignment is complicated by the possibility that operands may have different
+lengths.
+</p>
+<p>&#8226; In C and C++, character strings are stored in char arrays, with the null charac-
+ter used to mark the end of a string:
+</p>
+<p><b>char</b> str[] = &quot;apples&quot;;
+</p>
+<p>str is an array of seven characters.
+</p>
+<p>&#8226; Library functions that produce strings put a null character at the end of each
+string created.
+</p>
+<p>&#8226; Operations on strings are performed by calling standard library functions. Com-
+monly used functions:
+</p>
+<p>strcpy copies strings.
+strcat catenates one string onto the end of another.
+strcmp lexicographically compares two strings.
+strlen returns the number of characters in a string (excluding the null charac-
+</p>
+<p>ter).
+</p>
+<p>&#8226; Some library functions are inherently unsafe, because they do not guard against
+overflowing the destination string.
+</p>
+<p>&#8226; The following call causes an overflow if the string stored in src is longer than
+the dest array:
+</p>
+<p>strcpy(dest, src);</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-14 10/15
+Programming Language Concepts
+</p>
+<p><b>Strings and Their Operations (Continued)
+</b></p>
+<p>&#8226; C++ provides a string class, which allows the use of operators with string
+objects.
+</p>
+<p>&#8226; In Java, strings are supported by two classes:
+</p>
+<p>String, whose instances are constant strings.
+StringBuffer, whose instances are modifiable strings.
+</p>
+<p>C# and Ruby have similar classes.
+</p>
+<p>&#8226; Python has a primitive string type. It provides operations for substring reference,
+catenation, and selecting individual characters, as well as methods for searching
+and replacement. Python strings are immutable.
+</p>
+<p>&#8226; In F#, strings are immutable objects containing Unicode characters. Catenation
+is done using the + operator.
+</p>
+<p>&#8226; In ML, strings belong to a primitive type. They are immutable and can be con-
+catenated using the ^ operator.</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-15 10/15
+Programming Language Concepts
+</p>
+<p><b>Strings and Their Operations (Continued)
+</b></p>
+<p>&#8226; Perl, JavaScript, Ruby, and PHP all provide built-in pattern matching operations
+based on <b>regular expressions.</b> Regular expressions evolved from the early
+UNIX line editor, ed, to become part of the UNIX shell languages.
+</p>
+<p>&#8226; A Perl pattern expression that matches names in some programming languages
+(a letter followed by letters and/or digits):
+</p>
+<p>/[A-Za-z][A-Za-z\d]*/
+</p>
+<p>The brackets enclose character classes. A digit is specified with the abbreviation
+\d. The * symbol allows the previous item to be repeated zero or more times
+</p>
+<p>&#8226; A Perl pattern expression that matches numeric literals (a series of digits, possi-
+bly containing a decimal point):
+</p>
+<p>/\d+\.?\d*|\.\d+/
+</p>
+<p>The \. specifies a literal decimal point. The ? follows an optional item. The +
+allows the previous item to be repeated one or more times. The | separates alter-
+natives in the pattern.
+</p>
+<p>&#8226; Pattern-matching capabilities using regular expressions are included in the class
+libraries of C++, Java, Python, C#, and F#.</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-16 10/15
+Programming Language Concepts
+</p>
+<p><b>String Length Options
+</b></p>
+<p>&#8226; Programming languages treat the length of a string in one of three ways:
+</p>
+<p><b>Static-length strings.</b> The length of a string is fixed. Example: Java&#8217;s String
+objects.
+</p>
+<p><b>Limited dynamic-length strings.</b> The length of a string can vary up to a
+declared and fixed maximum set by the variable&#8217;s definition. Example:
+Strings in C and &#8220;C-style&#8221; strings in C++.
+</p>
+<p><b>Dynamic-length strings.</b> The length of a string can vary with no maximum.
+Example: Strings in JavaScript and Perl, as well as C++ string objects.
+</p>
+<p>&#8226; Dynamic-length strings require the overhead of dynamic storage allocation and
+deallocation but provide maximum flexibility.</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-17 10/15
+Programming Language Concepts
+</p>
+<p><b>Evaluation of Character String Types
+</b></p>
+<p>&#8226; Dealing with strings as arrays can be more cumbersome than dealing with a
+primitive string type. For example, copying a string may require a loop.
+</p>
+<p>&#8226; When there is no primitive string type, a standard library of string manipulation
+subprograms can be a good substitute.
+</p>
+<p>&#8226; Although dynamic-length strings are obviously the most flexible, the overhead
+of their implementation must be weighed against the additional flexibility.</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-18 10/15
+Programming Language Concepts
+</p>
+<p><b>Implementation of Character String Types
+</b></p>
+<p>&#8226; Character string types could be supported by hardware, but in most cases soft-
+ware is used for the storage and manipulation of strings.
+</p>
+<p>&#8226; Limited dynamic strings require a run-time descriptor to store both the fixed
+maximum length and the current length.
+</p>
+<p>&#8226; The run-time descriptor for dynamic-length strings is simpler because only the
+current length needs to be stored.
+</p>
+<p>&#8226; The limited dynamic strings of C and C++ do not require run-time descriptors.
+</p>
+<p>The current length is not needed, because the end of a string is marked by a null
+character.
+</p>
+<p>The maximum length is not needed, because subscripts are not checked.
+</p>
+<p>&#8226; Static-length and limited dynamic-length strings require no special dynamic
+storage allocation.
+</p>
+<p>&#8226; Dynamic-length strings require more complex storage management. Possible
+approaches:
+</p>
+<p>The characters in a string are stored in chunks, which are connected by pointers
+to form a linked list.
+</p>
+<p>The characters in a string are stored in adjacent storage cells (the most common
+technique).
+</p>
+<p>&#8226; Although the linked-list method requires extra storage for links, allocation and
+deallocation operations are simple. However, some string operations will be
+slowed by pointer chasing.
+</p>
+<p>&#8226; Using adjacent memory for complete strings results in faster string operations
+and requires less storage. However, in order for a string to grow, it may be nec-
+essary to allocate a larger block of memory and copy the string into it.</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-19 10/15
+Programming Language Concepts
+</p>
+<p><b>Enumeration Types
+</b></p>
+<p>&#8226; The definition of an <b>enumeration type</b> specifies all possible values of the type
+by providing a list of <b>enumeration constants.
+</b></p>
+<p>&#8226; A C# example:
+</p>
+<p><b>enum</b> days {Mon, Tue, Wed, Thu, Fri, Sat, Sun};
+</p>
+<p>&#8226; Typically, enumeration constants are implicitly assigned the integer values 0, 1,
+&#8230;, but some languages allow them to be explicitly assigned any integer value.
+</p>
+<p>&#8226; Design issues for enumeration types:
+</p>
+<p>Are enumeration values coerced to integer?
+Are any other types coerced to an enumeration type?
+</p>
+<p>&#8226; If an enumeration variable is coerced to a numeric type, there is little control
+over its range of legal operations or its range of values.
+</p>
+<p>&#8226; If an int value can be coerced to an enumeration type, a variable of that type
+could be assigned any integer value whether it represented an enumeration con-
+stant or not.</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-20 10/15
+Programming Language Concepts
+</p>
+<p><b>Enumeration Types (Continued)
+</b></p>
+<p>&#8226; C and Pascal were the first widely used languages to include an enumeration
+data type. C++ includes C&#8217;s enumeration types.
+</p>
+<p>&#8226; A C++ example:
+</p>
+<p><b>enum</b> colors {red, blue, green, yellow, black};
+colors myColor = blue, yourColor = red;
+</p>
+<p>&#8226; In C++, enumeration values are coerced to int when they are put in integer
+context. If the current value of myColor is blue, the expression
+</p>
+<p>myColor++
+</p>
+<p>would assign green to myColor.
+</p>
+<p>&#8226; C++ does not allow int values to be coerced to enumeration values, however.
+The statement
+</p>
+<p>myColor = 4;
+</p>
+<p>is illegal. This assignment would be legal if the right side had been cast to the
+colors type.</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-21 10/15
+Programming Language Concepts
+</p>
+<p><b>Enumeration Types (Continued)
+</b></p>
+<p>&#8226; Java did not support enumeration types until version 5.0. In that version, an enu-
+meration is a class.
+</p>
+<p>&#8226; In the simplest case, a Java enumeration looks just like an enumeration in the
+other C-based languages:
+</p>
+<p><b>enum</b> Colors {RED, BLUE, GREEN, YELLOW, BLACK}
+</p>
+<p>The enumeration constants are instances of the class.
+</p>
+<p>&#8226; A Java enumeration may define instance and class variables, methods, and con-
+structors.
+</p>
+<p>&#8226; A Java enumeration is implicitly a subclass of the Enum class, from which it
+inherits methods. One method is ordinal, which returns the numeric value of
+an enumeration object.
+</p>
+<p>&#8226; C# enumeration types are like those of C++, except that they are never coerced
+to integer.
+</p>
+<p>&#8226; ML enumerations are defined using <b>datatype</b>:
+</p>
+<p><b>datatype</b> weekdays = Monday | Tuesday | Wednesday | Thursday |
+                    Friday
+</p>
+<p>&#8226; F# enumerations are similar but use the word <b>type</b> and require that integer val-
+ues be specified:
+</p>
+<p><b>type</b> weekdays =
+   | Monday = 1
+   | Tuesday = 2
+   | Wednesday = 3
+   | Thursday = 4
+   | Friday = 5
+</p>
+<p>&#8226; Perl, JavaScript, PHP, Python, Ruby, and Lua do not have enumeration types.</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-22 10/15
+Programming Language Concepts
+</p>
+<p><b>Evaluation of Enumeration Types
+</b></p>
+<p>&#8226; Enumeration types improve readability by allowing the definition of names that
+represent integer codes.
+</p>
+<p>&#8226; In the area of reliability, the enumeration types of C#, F#, and Java 5.0 provide
+two advantages over ordinary integers:
+</p>
+<p>No arithmetic operations are legal on enumeration types, because enumeration
+values are never coerced to integers.
+</p>
+<p>No enumeration variable can be assigned a value outside its defined range.
+</p>
+<p>&#8226; C treats enumeration variables like integer variables, so it does not provide
+either advantage.
+</p>
+<p>&#8226; C++ is a little better. A numeric value can be assigned to an enumeration vari-
+able only if it is cast to the type of the variable.</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-23 10/15
+Programming Language Concepts
+</p>
+<p><b>Array Types
+</b></p>
+<p>&#8226; An <b>array</b> is a data structure with two properties:
+</p>
+<p>All elements have the same type.
+Elements are accessed by position.
+</p>
+<p>&#8226; References to individual elements are specified using subscript expressions.
+</p>
+<p>When subscripts are not constant, a run-time calculation is required to determine
+the memory location being referenced.
+</p>
+<p>&#8226; Primary design issues specific to arrays:
+</p>
+<p>What types are legal for subscripts?
+Are subscripting expressions in element references range checked?
+When are subscript ranges bound?
+When does array allocation take place?
+Are jagged and/or rectangular multidimensional arrays allowed?
+Can arrays be initialized when they have their storage allocated?
+What kinds of slices are allowed, if any?</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-24 10/15
+Programming Language Concepts
+</p>
+<p><b>Arrays and Indices
+</b></p>
+<p>&#8226; Accessing an array element is done by giving the name of the array and a selec-
+tor that specifies the position of the element. The position is specified by <b>sub-
+scripts</b> or <b>indices.
+</b></p>
+<p>&#8226; The syntax of array references is fairly universal: the array name is followed by
+a list of subscripts, surrounded by either parentheses or brackets.
+</p>
+<p>&#8226; In most languages that treat multidimensional arrays as arrays of arrays, each
+subscript is enclosed within parentheses or brackets.
+</p>
+<p>&#8226; A problem with parentheses is that they also enclose parameters in subprogram
+calls:
+</p>
+<p>Sum := Sum + B(I);  -- function call or array element?
+</p>
+<p>&#8226; The designers of pre-90 Fortrans and PL/I chose parentheses for array subscripts
+because keypunch machines did not provide brackets.
+</p>
+<p>&#8226; Ada also uses parentheses to enclose array subscripts. This decision was based
+on the fact that both array element references and function calls are mappings.
+</p>
+<p>&#8226; Most other languages use brackets to enclose array subscripts.
+</p>
+<p>&#8226; Two distinct types are involved in an array type: the element type and the type of
+the subscripts.
+</p>
+<p>&#8226; The type of subscripts is often integer, but some languages also allow Boolean,
+character, and enumeration types.</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-25 10/15
+Programming Language Concepts
+</p>
+<p><b>Arrays and Indices (Continued)
+</b></p>
+<p>&#8226; Early programming languages did not specify that subscript ranges be implicitly
+checked. Range errors in subscripts are common in programs, so requiring range
+checking is an important reliability factor.
+</p>
+<p>&#8226; Most contemporary languages do not require range checking of subscripts, but
+Java, ML, and C# do.
+</p>
+<p>&#8226; Subscripting in Perl is unusual because array names begin with the @ symbol,
+but the $ symbol is used instead when accessing individual elements.
+</p>
+<p>The second element of the array @list is accessed by writing $list[1].
+</p>
+<p>&#8226; Negative subscripts are allowed in Perl, indicating an offset from the end of the
+array.
+</p>
+<p>If @list has five elements numbered from 0 to 4, then $list[-2] is the
+same as $list[3].
+</p>
+<p>&#8226; A reference to a nonexistent array element in Perl yields <b>undef</b>.</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-26 10/15
+Programming Language Concepts
+</p>
+<p><b>Subscript Bindings and Array Categories
+</b></p>
+<p>&#8226; The binding of the subscript type to an array variable is usually static, but sub-
+script ranges are sometimes dynamically bound.
+</p>
+<p>&#8226; The lower bound of the subscript range is often implicit. In the C-based lan-
+guages, it is fixed at 0.
+</p>
+<p>&#8226; In some languages, lower bounds must be specified by the programmer.</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-27 10/15
+Programming Language Concepts
+</p>
+<p><b>Subscript Bindings and Array Categories (Continued)
+</b></p>
+<p>&#8226; Arrays can be divided into five categories, based on the binding to subscript
+ranges, the binding to storage, and from where the storage is allocated.
+</p>
+<p>&#8226; <b>Static array:</b> Subscript ranges are statically bound and storage allocation is
+static.
+</p>
+<p>Advantage: Efficiency, since no dynamic allocation or deallocation is required.
+</p>
+<p>&#8226; <b>Fixed stack-dynamic array:</b> Subscript ranges are statically bound, but alloca-
+tion is done at declaration elaboration time.
+</p>
+<p>Advantage: Space efficiency, since the space occupied by an array can be deal-
+located when the enclosing subprogram returns.
+</p>
+<p>&#8226; <b>Stack-dynamic array:</b> Both the binding of subscript ranges and the allocation
+of storage are done at elaboration time. Once subscript ranges are bound and
+storage is allocated, both remain fixed during the lifetime of the array.
+</p>
+<p>Advantage: Flexibility, since the size of an array need not be known until the
+array is about to be used.
+</p>
+<p>&#8226; <b>Fixed heap-dynamic array:</b> Similar to a stack-dynamic array, except that sub-
+script ranges are bound and storage is allocated at the program&#8217;s request; in addi-
+tion, storage for the array is allocated on the heap.
+</p>
+<p>Advantage: Flexibility, since there is more control over the lifetime of an array.
+</p>
+<p>&#8226; <b>Heap-dynamic array:</b> The binding of subscript ranges and storage allocation is
+dynamic and can change any number of times during the array&#8217;s lifetime.
+</p>
+<p>Advantage: Flexibility, since arrays can grow and shrink during program execu-
+tion as the need for space changes.</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-28 10/15
+Programming Language Concepts
+</p>
+<p><b>Subscript Bindings and Array Categories (Continued)
+</b></p>
+<p>&#8226; Arrays declared in C and C++ functions using the static specifier are static
+arrays. So are arrays declared at the outermost level of a C or C++ program.
+</p>
+<p>&#8226; Arrays declared in C and C++ functions without the static specifier are fixed
+stack-dynamic arrays. C99 also allows stack-dynamic arrays that are not fixed.
+</p>
+<p>&#8226; C and C++ also provide fixed heap-dynamic arrays.
+</p>
+<p>The C standard library functions malloc and free perform heap allocation
+and deallocation, respectively.
+</p>
+<p>C++ provides the operators new and delete to manage heap storage.
+Dynamic arrays are accessed through pointers. Both C and C++ allow a pointer
+</p>
+<p>to an array to be indexed.
+</p>
+<p>&#8226; In Java, all arrays are fixed heap-dynamic arrays. C# also provides fixed heap-
+dynamic arrays.
+</p>
+<p>&#8226; In C#, an instance of the List class behaves like a heap-dynamic array. Sub-
+scripts can be used to access the elements of a List object. Java&#8217;s ArrayList
+class is similar, but subscripting is not supported.</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-29 10/15
+Programming Language Concepts
+</p>
+<p><b>Subscript Bindings and Array Categories (Continued)
+</b></p>
+<p>&#8226; Properties of Perl arrays:
+</p>
+<p>Can be made to grow by using push (puts one or more new elements at the end)
+and unshift (puts one or more new elements at the beginning), or by
+assigning a value using a subscript beyond the highest current subscript.
+</p>
+<p>Can be made to shrink to no elements by assigning the empty list, ().
+Length is the largest subscript plus 1.
+</p>
+<p>&#8226; JavaScript allows arrays to grow with push and unshift and shrink by set-
+ting them to the empty list. Negative subscripts are not supported.
+</p>
+<p>&#8226; JavaScript arrays can be sparse (subscript values need not be contiguous). Sup-
+pose that list has 10 elements with the subscripts 0 to 9. After the following
+assignment, list grows to 11 elements and length 51:
+</p>
+<p>list[50] = 42;
+</p>
+<p>The elements with subscripts 10 to 49 are not defined and do not require storage.
+</p>
+<p>&#8226; A reference to a nonexistent element in a JavaScript array yields <b>undefined</b>.</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-30 10/15
+Programming Language Concepts
+</p>
+<p><b>Array Initialization
+</b></p>
+<p>&#8226; Some languages provide a way to initialize arrays at the time they are allocated,
+including C, C++, Java, and C#. When an initializer is present, the length of the
+array can be omitted, as in this C example:
+</p>
+<p><b>int</b> list[] = {4, 5, 7, 83};
+</p>
+<p>Using this feature prevents the compiler from detecting some kinds of errors.
+</p>
+<p>&#8226; Character strings in C and C++ can be initialized using string literals:
+</p>
+<p><b>char</b> name[] = &quot;freddie&quot;;
+</p>
+<p>Arrays of strings can be initialized by a list of string literals:
+</p>
+<p><b>char</b> *names[] = {&quot;Bob&quot;, &quot;Jake&quot;, &quot;Darcie&quot;};
+</p>
+<p>&#8226; Java uses similar syntax to initialize an array of strings:
+</p>
+<p>String[] names = {&quot;Bob&quot;, &quot;Jake&quot;, &quot;Darcie&quot;};</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-31 10/15
+Programming Language Concepts
+</p>
+<p><b>Array Operations
+</b></p>
+<p>&#8226; An array operation is performed on an entire array, not a single element.
+</p>
+<p>&#8226; The most common array operations are assignment, catenation, comparison for
+equality and inequality, and slicing.
+</p>
+<p>&#8226; The C-based languages do not provide any array operations, except through the
+methods of Java, C++, and C#.
+</p>
+<p>&#8226; Perl supports array assignment but not array comparison.
+</p>
+<p>&#8226; The elements of Python&#8217;s arrays (lists) are references to objects. Array opera-
+tions in Python:
+</p>
+<p>The = operator performs array assignment, although it is only a reference
+change.
+</p>
+<p>The + operator catenates arrays.
+The <b>in</b> operator tests for membership in an array.
+The <b>is</b> operator tests whether two variables reference the same object.
+The == operator compares all corresponding objects in two arrays, regardless of
+</p>
+<p>how deeply they are nested.
+</p>
+<p>&#8226; The elements of Ruby&#8217;s arrays are also references to objects. Array operations in
+Ruby:
+</p>
+<p>The == operator tests whether two arrays have the same length and correspond-
+ing elements are equal.
+</p>
+<p>Ruby&#8217;s arrays can be catenated with an Array method.</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-32 10/15
+Programming Language Concepts
+</p>
+<p><b>Array Operations (Continued)
+</b></p>
+<p>&#8226; In APL, the four basic arithmetic operations are defined for arrays as well as sca-
+lars. Examples:
+</p>
+<p>A + B
+A &#215; B
+</p>
+<p>&#8226; APL includes a collection of unary operators for arrays. Examples (V is a vector
+and M is a matrix):
+</p>
+<p>&#232;V reverses the elements of V
+&#232;M reverses the columns of M
+&#233;M reverses the rows of M
+&#237;M transposes M (its rows become its columns, and vice versa)
+&#8217;M inverts M
+</p>
+<p>&#8226; APL also includes several special operators that take other operators as oper-
+ands. One of these special operators is inner product, which is represented by a
+period. It takes two operands, which must be binary operators.
+</p>
+<p>&#8226; For example, placing a period between the + and &#215; operators creates a new oper-
+ator that first multiplies the corresponding elements of its operands and then
+sums the results.
+</p>
+<p>If A and B are vectors, A +.&#215; B is the inner product of A and B.
+If A and B are matrices, A +.&#215; B is the matrix product of A and B.</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-33 10/15
+Programming Language Concepts
+</p>
+<p><b>Rectangular and Jagged Arrays
+</b></p>
+<p>&#8226; Some programming languages support only one-dimensional arrays. In these
+languages, a multidimensional array is treated as an array whose elements are
+arrays.
+</p>
+<p>&#8226; Other languages provide a &#8220;true&#8221; multidimensional array, which is sometimes
+called a <b>rectangular array.
+</b></p>
+<p>&#8226; Another kind of array found in some languages is the <b>jagged</b> (or <b>ragged</b>) <b>array</b>,
+in which the lengths of rows need not be the same.
+</p>
+<p>&#8226; A two-dimensional jagged array is a one-dimensional array whose elements are
+one-dimensional arrays of various lengths.
+</p>
+<p>&#8226; C, C++ and Java support jagged arrays but not rectangular arrays.
+</p>
+<p>&#8226; C# and F# support both rectangular and jagged arrays.
+</p>
+<p>&#8226; When a multidimensional array is actually an array of arrays, each subscript is
+usually enclosed in a separate pair of brackets:
+</p>
+<p>myArray[3][7]
+</p>
+<p>The subscripts for a rectangular array are enclosed in a single pair of brackets:
+</p>
+<p>myArray[3, 7]</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-34 10/15
+Programming Language Concepts
+</p>
+<p><b>Slices
+</b></p>
+<p>&#8226; A <b>slice</b> of an array is a portion such as a row or column. It has the properties of a
+whole array.
+</p>
+<p>&#8226; Python supports several forms of slicing. Examples:
+</p>
+<p>vector = [2, 4, 6, 8, 10, 12, 14, 16]
+mat = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+</p>
+<p>Slice: Value:
+vector[3:6] [8, 10, 12]
+mat[1] [4, 5, 6]
+mat[0][0:2] [1, 2]
+vector[0:7:2] [2, 6, 10, 14]
+</p>
+<p>&#8226; In Perl, slices may specify a list of subscripts or a range of subscripts:
+</p>
+<p>@list[1..5] = @list2[3, 5, 7, 9, 13];
+</p>
+<p>&#8226; A Ruby slice can specify either a number of elements or a range. Assume that
+list is [2, 4, 6, 8, 10].
+</p>
+<p>list[2, 2], or list.slice(2, 2), has the value [6, 8].
+list[1..3], or list.slice(1..3), has the value [4, 6, 8].</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-35 10/15
+Programming Language Concepts
+</p>
+<p><b>Implementation of Array Types
+</b></p>
+<p>&#8226; The code to allow accessing of array elements must be generated at compile
+time. At run time, this code is executed to produce element addresses.
+</p>
+<p>&#8226; Suppose that list is a one-dimensional array whose lower subscript bound is
+0. The following access function will compute the address of list[k]:
+</p>
+<p>address(list[k]) = address(list[0]) + k * element_size
+</p>
+<p>The first operand of the addition is the constant part and the second is the vari-
+able part.
+</p>
+<p>&#8226; If the element type is statically bound and the array is statically bound to storage,
+then the value of the constant part can be computed before run time. However,
+the addition and multiplication operations must be done at run time.
+</p>
+<p>&#8226; The access function can be generalized to allow an arbitrary lower bound:
+</p>
+<p>address(list[k]) = address(list[lower_bound]) +
+                                   ((k &#8211; lower_bound) * element_size)
+</p>
+<p>Next, it is rewritten so that it consists of a constant part and a variable part:
+</p>
+<p>address(list[k]) = 
+                       (address(list[lower_bound]) &#8211; lower_bound * element_size) +
+                          (k * element_size)
+</p>
+<p>If the address of the array is not known until run time, the subtraction must be
+done when the array is allocated.
+</p>
+<p>&#8226; A one-dimensional array will require a compile-time descriptor.
+</p>
+<p>&#8226; A run-time descriptor may be also be needed if run-time checking of index
+ranges is performed or if any attributes of the array are dynamic.
+</p>
+<p>If the subscript ranges are static, the ranges can be incorporated into the code
+that does the checking, eliminating the need for the run-time descriptor.</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-36 10/15
+Programming Language Concepts
+</p>
+<p><b>Implementation of Array Types (Continued)
+</b></p>
+<p>&#8226; Multidimensional arrays are more complex to implement than single-dimen-
+sioned arrays, since they must be mapped onto the linear structure of computer
+memory.
+</p>
+<p>&#8226; Ways to store multidimensional arrays in linear memory:
+</p>
+<p>Row-major order
+Column-major order
+</p>
+<p>&#8226; In <b>row-major order,</b> the elements of the array that have as their first subscript
+the lower bound of that subscript are stored first, followed by the elements of the
+second value of the first subscript, and so forth.
+</p>
+<p>&#8226; The term &#8220;row-major order&#8221; comes from the fact that a matrix will be stored by
+rows:
+</p>
+<p>3   4   7
+6   2   5
+1   3   8
+</p>
+<p>would be stored as
+</p>
+<p>3, 4, 7, 6, 2, 5, 1, 3, 8</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-37 10/15
+Programming Language Concepts
+</p>
+<p><b>Implementation of Array Types (Continued)
+</b></p>
+<p>&#8226; In general, the address of an element in a multidimensional array is the base
+address of the array plus the element size times the number of elements that pre-
+cede it in the array.
+</p>
+<p>&#8226; For an array stored in row-major order, the number of preceding elements is the
+number of rows above the element times the size of a row, plus the number of
+elements to the left of the element in its row.
+</p>
+<p>&#8226; Consider the problem of writing an access function for a two-dimensional array
+a whose lower subscript bounds are 0:
+</p>
+<p>&#8226; To compute the address of a[i, j], the number of elements that precede
+a[i, j] must be multiplied by the element size:
+</p>
+<p>location(a[i, j]) = address of a[0, 0] +
+                                    ((((number of rows above the ith row) * (size of a row))
+                                           + (number of elements left of the jth column)) *
+                                                element_size)</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-38 10/15
+Programming Language Concepts
+</p>
+<p><b>Implementation of Array Types (Continued)
+</b></p>
+<p>&#8226; The number of rows above the ith row is i and the number of elements to the
+left of the jth column is j, so the formula becomes
+</p>
+<p>location(a[i, j]) = address of a[0, 0] + ((i * n + j) * element_size)
+</p>
+<p>where n is the number of elements per row. The first term is the constant part
+and the last is the variable part.
+</p>
+<p>&#8226; Generalizing to arbitrary lower bounds yields the following access function:
+</p>
+<p>location(a[i, j]) = address of a[row_lb, col_lb] +
+                                   (((i &#8211; row_lb) * n) + (j &#8211; col_lb)) * element_size
+</p>
+<p>row_lb is the lower bound of the rows, and col_lb is the lower bound of the col-
+umns.
+</p>
+<p>&#8226; Rewriting to separate the constant part from the variable part gives the following
+result:
+</p>
+<p>location(a[i, j]) = address of a[row_lb, col_lb] &#8211;
+                                   (((row_lb * n) + col_lb) * element_size) +
+                                   (((i * n) + j) * element_size)
+</p>
+<p>This formula can be generalized to an arbitrary number of dimensions.
+</p>
+<p>&#8226; For each dimension of an array, one add and one multiply instruction is required
+for the access function.</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-39 10/15
+Programming Language Concepts
+</p>
+<p><b>Associative Arrays
+</b></p>
+<p>&#8226; An <b>associative array</b> is an unordered collection of data elements that are
+indexed by <b>keys.
+</b></p>
+<p>&#8226; Each element of an associative array is a pair consisting of a key and a value.
+</p>
+<p>&#8226; Associative arrays are supported by Perl, Python, Ruby, and Lua (as a language
+feature) and by Java, C++, C#, and F# (via classes in the standard library).
+</p>
+<p>&#8226; In Perl, associative arrays are called <b>hashes </b>because their elements are stored
+and retrieved with hash functions.
+</p>
+<p>The name of a hash variable must begin with a percent sign (%).
+Each key is a string.
+Each value is a scalar (number, string, or reference).
+</p>
+<p>&#8226; Hashes can be set to literal values with the assignment statement:
+</p>
+<p>%salaries = (&quot;Cedric&quot; =&gt; 75000, &quot;Perry&quot; =&gt; 57000,
+             &quot;Mary&quot; =&gt; 55750, &quot;Gary&quot; =&gt; 47850);
+</p>
+<p>&#8226; Individual element values are referenced by placing the key value in braces and
+replacing the hash name by a scalar variable name that is the same except for
+first character:
+</p>
+<p>$salaries{&quot;Perry&quot;} = 58850;
+</p>
+<p>A new element can be added in the same way.
+</p>
+<p>&#8226; An element can be removed from a hash with the <b>delete</b> operator:
+</p>
+<p><b>delete</b> $salaries{&quot;Gary&quot;};
+</p>
+<p>&#8226; The entire hash can be emptied by assigning the empty literal to it:
+</p>
+<p>%salaries = ();</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-40 10/15
+Programming Language Concepts
+</p>
+<p><b>Associative Arrays (Continued)
+</b></p>
+<p>&#8226; The exists operator tests whether a particular value is a key in a hash:
+</p>
+<p>if (exists $salaries{&quot;Shelly&quot;}) &#8230;
+</p>
+<p>&#8226; Operators that can be applied to a hash:
+</p>
+<p>keys returns an array of the keys of a hash.
+values returns an array of the values of a hash.
+each returns a different (key, value) pair each time it is called.
+</p>
+<p>&#8226; Python&#8217;s associative arrays (<b>dictionaries</b>) are similar to Perl&#8217;s hashes, except
+that the values are references to objects.
+</p>
+<p>&#8226; Ruby&#8217;s associative arrays are similar to Python&#8217;s, except that a key can be any
+object, not just a string.
+</p>
+<p>&#8226; PHP&#8217;s arrays are both normal arrays and associative arrays. A subscript can be
+an integer or a string.
+</p>
+<p>The elements in PHP&#8217;s arrays are linked together, which allows iterative access
+to elements through the current and next functions.
+</p>
+<p>&#8226; Lua&#8217;s associative arrays (<b>tables</b>) are the only data structures in the language.
+</p>
+<p>Keys and values can have any type.
+A table can be used as a traditional array, associative array, or record.
+The key is enclosed in brackets, but alternative syntax is available when a table
+</p>
+<p>is used as a record.</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-41 10/15
+Programming Language Concepts
+</p>
+<p><b>Record Types
+</b></p>
+<p>&#8226; A <b>record</b> is a data structure in which individual elements are identified by
+names.
+</p>
+<p>&#8226; Records were introduced by COBOL in the early 1960s. Since then, they have
+been included in all popular languages except pre-90 versions of Fortran.
+</p>
+<p>&#8226; In some object-oriented languages, records are simulated with objects.
+</p>
+<p>&#8226; In C, C++, and C#, records are supported by the struct type.
+</p>
+<p>In C++, structures are a minor variation on classes.
+In C#, structures are stack-allocated value types, unlike objects, which are heap-
+</p>
+<p>allocated reference types.
+</p>
+<p>&#8226; Design issues specific to records:
+</p>
+<p>What is the syntactic form of references to fields?
+Are elliptical references allowed?</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-42 10/15
+Programming Language Concepts
+</p>
+<p><b>Definitions of Records
+</b></p>
+<p>&#8226; The fundamental difference between a record and an array is that record ele-
+ments (<b>fields</b>) are not referenced by indices. Instead, each field is referenced
+through its name.
+</p>
+<p>&#8226; Example of a COBOL record declaration:
+</p>
+<p>01  EMPLOYEE-RECORD.
+    02  EMPLOYEE-NAME.
+        05  FIRST    PICTURE IS X(20).
+        05  MIDDLE   PICTURE IS X(10).
+        05  LAST     PICTURE IS X(20).
+    02  HOURLY-RATE  PICTURE IS 99V99.
+</p>
+<p>The <b>level numbers</b> 01, 02, and 05 indicate levels of nesting. The PICTURE
+clauses describe the formats of fields. X(20) specifies 20 alphanumeric charac-
+ters; 99V99 specifies four decimal digits with the decimal point in the middle.
+</p>
+<p>&#8226; In Java and C#, records can be defined as classes, with instance variables serving
+as fields.
+</p>
+<p>&#8226; Lua&#8217;s tables can be used as records:
+</p>
+<p>employee.name = &quot;Freddie&quot;
+employee.hourlyRate = 13.20</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-43 10/15
+Programming Language Concepts
+</p>
+<p><b>References to Record Fields
+</b></p>
+<p>&#8226; There are two primary ways to reference the individual fields of a record.
+</p>
+<p>&#8226; COBOL field references have the form
+</p>
+<p>field_name OF record_name_1 OF &#8230; OF record_name_n
+</p>
+<p>Example:
+</p>
+<p>MIDDLE OF EMPLOYEE-NAME OF EMPLOYEE-RECORD
+</p>
+<p>&#8226; Most other languages use <b>dot notation</b> for field references:
+</p>
+<p>Employee_Record.Employee_Name.Middle
+</p>
+<p>With dot notation, the name of the largest enclosing record comes first; the field
+name comes last.
+</p>
+<p>&#8226; Lua allows the use of dot notation for field references, although fields can also
+be referenced in the same way as other table elements: employee[&quot;name&quot;].
+</p>
+<p>&#8226; A <b>fully qualified reference</b> to a record field is one in which all intermediate
+record names, from the largest enclosing record to the specific field, are named.
+</p>
+<p>&#8226; COBOL also allows <b>elliptical references</b> to record fields. In an elliptical refer-
+ence, the field is named, but any or all of the enclosing record names can be
+omitted, as long as the resulting reference is unambiguous.
+</p>
+<p>&#8226; Examples of elliptical references:
+</p>
+<p>FIRST
+FIRST OF EMPLOYEE-NAME
+FIRST OF EMPLOYEE-RECORD
+</p>
+<p>&#8226; Although elliptical references are a convenience, they can complicate the com-
+piler and may be detrimental to readability.</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-44 10/15
+Programming Language Concepts
+</p>
+<p><b>Implementation of Record Types
+</b></p>
+<p>&#8226; The fields of a record are stored in adjacent memory locations.
+</p>
+<p>&#8226; Because field sizes can vary, fields are accessed through offsets. The offset asso-
+ciated with a field specifies the distance from the beginning of the record to the
+beginning of the field.
+</p>
+<p>&#8226; The compile-time descriptor for a record will need to store three items for each
+field:
+</p>
+<p>Name
+Type
+Offset
+</p>
+<p>&#8226; Run-time descriptors for records are unnecessary.</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-45 10/15
+Programming Language Concepts
+</p>
+<p><b>Tuple Types
+</b></p>
+<p>&#8226; A <b>tuple</b> is a data type that is similar to a record, except that the elements are not
+named.
+</p>
+<p>&#8226; Python includes an immutable tuple type.
+</p>
+<p>If a tuple needs to be changed, it can be converted to a list with the list func-
+tion.
+</p>
+<p>After the change, it can be converted back to a tuple with the tuple function.
+</p>
+<p>&#8226; A tuple is created by assigning a tuple literal:
+</p>
+<p>myTuple = (3, 5.8, 'apple')
+</p>
+<p>The elements of a tuple need not be of the same type.
+</p>
+<p>&#8226; The elements of a tuple can be referenced by indexing:
+</p>
+<p>myTuple[1]
+</p>
+<p>The first element of a tuple has index 1.
+</p>
+<p>&#8226; Tuples can be catenated with the plus (+) operator. They can be deleted with the
+del statement.</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-46 10/15
+Programming Language Concepts
+</p>
+<p><b>Tuple Types (Continued)
+</b></p>
+<p>&#8226; In ML, a tuple must have at least two elements, whereas Python&#8217;s tuples can be
+empty or contain one element.
+</p>
+<p>&#8226; As in Python, an ML tuple can include elements of mixed types:
+</p>
+<p><b>val</b> myTuple = (3, 5.8, 'apple');
+</p>
+<p>&#8226; An example of accessing the first element of a tuple:
+</p>
+<p>#1(myTuple)
+</p>
+<p>&#8226; A new tuple type can be defined in ML with a type declaration:
+</p>
+<p><b>type</b> intReal = <b>int</b> * <b>real</b>;
+</p>
+<p>&#8226; In F#, a tuple is created by assigning a tuple value to a name in a <b>let</b> statement:
+</p>
+<p><b>let</b> tup = (3, 5, 7);;
+</p>
+<p>&#8226; If a tuple has two elements, they can be referenced with the functions fst and
+snd, respectively.
+</p>
+<p>&#8226; The elements of a tuple can also be referenced with a tuple pattern on the left
+side of a <b>let</b>:
+</p>
+<p><b>let</b> a, b, c = tup;;
+</p>
+<p>&#8226; Tuples are used in Python, ML, and F# to allow functions to return multiple val-
+ues.</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-47 10/15
+Programming Language Concepts
+</p>
+<p><b>List Types
+</b></p>
+<p>&#8226; <b>Lists</b> have always been part of functional languages, but in recent years they
+have found their way into some imperative languages.
+</p>
+<p>&#8226; Lists in Scheme and Common Lisp are enclosed within parentheses. Elements
+are not separated by punctuation:
+</p>
+<p>(A B C D)
+</p>
+<p>&#8226; List can be nested:
+</p>
+<p>(A (B C) D)
+</p>
+<p>&#8226; Data and code have the same syntactic form. If the list (A B C) is interpreted
+as code, it is a call to the function A with parameters B and C.
+</p>
+<p>&#8226; The CAR function returns the first element of a list:
+</p>
+<p>(CAR '(A B C)) returns A
+</p>
+<p>The quote prevents (A B C) from being treated as a function call. The CDR
+function returns a list minus its first element:
+</p>
+<p>(CDR '(A B C)) returns (B C)
+</p>
+<p>&#8226; Common Lisp also has the functions FIRST (same as CAR), SECOND, &#8230;,
+TENTH, which return the element at the specified position.
+</p>
+<p>&#8226; New lists are constructed with the CONS and LIST functions. CONS returns a
+new list with its first parameter as the first element and its second parameter as
+the remainder of that list:
+</p>
+<p>(CONS 'A '(B C)) returns (A B C)
+</p>
+<p>LIST takes any number of parameters and returns a new list with the parameters
+as its elements:
+</p>
+<p>(LIST 'A 'B '(C D)) returns (A B (C D))</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-48 10/15
+Programming Language Concepts
+</p>
+<p><b>List Types (Continued)
+</b></p>
+<p>&#8226; In ML, lists are specified in square brackets, with the elements separated by
+commas:
+</p>
+<p>[5, 7, 9]
+</p>
+<p>&#8226; [] is the empty list, which can also be written as nil.
+</p>
+<p>&#8226; CONS is implemented as a binary infix operator in ML:
+</p>
+<p>3::[5, 7, 9] returns [3, 5, 7, 9]
+</p>
+<p>&#8226; The elements of an ML list must be of the same type, so the following list would
+be illegal:
+</p>
+<p>[5, 7.3, 9]
+</p>
+<p>&#8226; ML has functions named hd (head) and tl (tail) that correspond to CAR and
+CDR:
+</p>
+<p>hd [5, 7, 9] is 5
+tl [5, 7, 9] is [7, 9]</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-49 10/15
+Programming Language Concepts
+</p>
+<p><b>List Types (Continued)
+</b></p>
+<p>&#8226; Lists in F# are related to those of ML, with a few notable differences:
+</p>
+<p>Elements of a list in F# are separated by semicolons rather than commas.
+hd and tl are methods of the List class, as in List.hd [1; 3; 5; 7],
+</p>
+<p>which returns 1.
+</p>
+<p>The CONS operation of F# is specified as two colons, as in ML.
+</p>
+<p>&#8226; Unlike the lists of Scheme, Common Lisp, ML, and F#, the lists of Python are
+mutable. They can contain any data value or object.
+</p>
+<p>&#8226; A Python list is a sequence of expressions that are separated by commas and
+delimited with brackets:
+</p>
+<p>myList = [3, 5.8, &quot;grape&quot;]
+</p>
+<p>&#8226; The elements of a list are referenced with subscripts in brackets:
+</p>
+<p>x = myList[1]
+</p>
+<p>The elements of a list are indexed starting at zero.
+</p>
+<p>&#8226; List elements can be updated by assignment. A list element can be deleted with
+<b>del</b>:
+</p>
+<p><b>del</b> myList[1]</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-50 10/15
+Programming Language Concepts
+</p>
+<p><b>List Types (Continued)
+</b></p>
+<p>&#8226; <b>List comprehensions</b> are a powerful mechanism for creating lists.
+</p>
+<p>&#8226; List comprehensions are derived from set notation. They first appeared in
+Haskell.
+</p>
+<p>&#8226; A list comprehension applies a function to each element of a list and constructs a
+new list from the results.
+</p>
+<p>&#8226; Syntax of a Python list comprehension:
+</p>
+<p>[expression <b>for</b> iterate_var <b>in</b> array <b>if</b> condition]
+</p>
+<p>&#8226; Example:
+</p>
+<p>[x * x <b>for</b> x <b>in</b> range(12) <b>if</b> x % 3 == 0]
+</p>
+<p>produces
+</p>
+<p>[0, 9, 36, 81]
+</p>
+<p>&#8226; Haskell&#8217;s list comprehensions have the following form:
+</p>
+<p>[body |  qualifiers]
+</p>
+<p>&#8226; An example that defines a list of the squares of the numbers from 1 to 10:
+</p>
+<p>[n * n | n &lt;- [1..10]]
+</p>
+<p>&#8226; F# also has list comprehensions:
+</p>
+<p><b>let</b> myArray = [| <b>for</b> i <b>in</b> 1..5 -&gt; i * i |];;</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-51 10/15
+Programming Language Concepts
+</p>
+<p><b>Union Types
+</b></p>
+<p>&#8226; A <b>union</b> is a type whose variables may store values of different types at different
+times during program execution.
+</p>
+<p>&#8226; The problem of type checking is the major design issue for union types.
+</p>
+<p>&#8226; C and C++ provide a <b>union</b> construct that is not fully type checked. Unions in
+these languages are called <b>free unions</b> because of the freedom allowed in their
+use.
+</p>
+<p>&#8226; Example of a C union:
+</p>
+<p><b>union</b> {
+  <b>int</b> i;
+  <b>float</b> f;
+} u;
+</p>
+<p>The danger is that a value stored as one type will be retrieved as another type:
+</p>
+<p><b>float</b> x;
+&#8230;
+u.i = 27;
+x = u.f;
+</p>
+<p>&#8226; In some languages, each union includes a type indicator, known as a <b>tag</b> or <b>dis-
+criminant. </b>A union with a discriminant is called a <b>discriminated</b> <b>union.
+</b></p>
+<p>&#8226; The first language to provide discriminated unions was ALGOL 68. They are
+now supported by ML, Haskell, and F#.</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-52 10/15
+Programming Language Concepts
+</p>
+<p><b>Unions in F#
+</b></p>
+<p>&#8226; A union is declared in F# with a <b>type</b> declaration:
+</p>
+<p><b>type</b> intReal =
+   | IntValue <b>of</b> int
+   | RealValue <b>of</b> float;;
+</p>
+<p>intReal is the union type. IntValue and RealValue are constructors.
+</p>
+<p>&#8226; Values of type intReal can be created using the constructors as if they were
+functions:
+</p>
+<p><b>let</b> ir1 = IntValue 17;;
+<b>let</b> ir2 = RealValue 3.4;;
+</p>
+<p>&#8226; Accessing the value of a union is done using the F# <b>match</b> construct.
+</p>
+<p>&#8226; General form of <b>match</b>:
+</p>
+<p><b>match</b> pattern <b>with
+</b>  | expression_list1 -&gt; expression1
+  | &#8230;
+  | expression_listn -&gt; expressionn
+</p>
+<p>The pattern can be of any data type.
+</p>
+<p>&#8226; A function that displays the type of the intReal union:
+</p>
+<p><b>let</b> printType value =
+    <b>match</b> value <b>with
+</b>        | IntValue value -&gt; printfn &quot;It is an integer&quot;
+        | RealValue value -&gt; printfn &quot;It is a float&quot;;;
+</p>
+<p>&#8226; Example calls of printType and their output:
+</p>
+<p>printType ir1;;
+It is an integer
+printType ir2;;
+It is a float</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-53 10/15
+Programming Language Concepts
+</p>
+<p><b>Evaluation of Union Types
+</b></p>
+<p>&#8226; Unions are potentially unsafe constructs in many languages.
+</p>
+<p>Since they do not require references to unions to be type checked, C and C++ are
+not strongly typed.
+</p>
+<p>&#8226; ML, Haskell, and F# provide safe unions.
+</p>
+<p>&#8226; Neither Java nor C# include unions.</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-54 10/15
+Programming Language Concepts
+</p>
+<p><b>Implementation of Union Types
+</b></p>
+<p>&#8226; Unions are implemented by assigning the same address to every possible vari-
+ant.
+</p>
+<p>&#8226; Sufficient storage for the largest variant is allocated.
+</p>
+<p>&#8226; The tag of a discriminated union is stored along with the variant.</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-55 10/15
+Programming Language Concepts
+</p>
+<p><b>Pointer and Reference Types
+</b></p>
+<p>&#8226; The values of a <b>pointer</b> type consist of memory addresses and a special value,
+<b>nil.</b> nil is not a valid address; it indicates that a pointer cannot currently be used
+to reference any memory cell.
+</p>
+<p>&#8226; Uses of pointers include:
+</p>
+<p>Indirect addressing
+Accessing anonymous variables in the heap
+</p>
+<p>&#8226; Having pointers in a language improves its writability. Implementing a dynamic
+structure (a binary tree, for example) is difficult in a language that does not have
+pointers or dynamic storage.
+</p>
+<p>&#8226; Primary design issues specific to pointers:
+</p>
+<p>What is the lifetime of a heap-dynamic variable?
+Are pointers restricted as to the type of value to which they can point?
+Are pointers used for dynamic storage management, indirect addressing, or
+</p>
+<p>both?
+Should a language support pointer types, reference types, or both?</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-56 10/15
+Programming Language Concepts
+</p>
+<p><b>Pointer Operations
+</b></p>
+<p>&#8226; Languages that provide a pointer type usually include two fundamental pointer
+operations: assignment and dereferencing.
+</p>
+<p>&#8226; Assignment sets a pointer variable&#8217;s value to some useful address.
+</p>
+<p>If pointer variables are used only to manage dynamic storage, the allocation
+mechanism serves to initialize the pointer variable.
+</p>
+<p>If pointers can point to variables that are not heap-dynamic, then there must be
+an operator or built-in subprogram that fetches the address of a variable.
+</p>
+<p>&#8226; There are two ways to interpret an occurrence of a pointer variable in an expres-
+sion:
+</p>
+<p>As a reference to the variable itself.
+As an indirect reference to the memory cell that the variable points to. (Access-
+</p>
+<p>ing this cell is called <b>dereferencing</b> the pointer.)
+</p>
+<p>&#8226; Dereferencing can be either explicit or implicit. In many contemporary lan-
+guages it is explicit.</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-57 10/15
+Programming Language Concepts
+</p>
+<p><b>Pointer Operations (Continued)
+</b></p>
+<p>&#8226; In C++, dereferencing is explicitly specified by using the asterisk (*) as a prefix
+unary operation. Example:
+</p>
+<p>j = *ptr;
+</p>
+<p>If ptr is a pointer variable with the value 7080, and the cell whose address is
+7080 has the value 206, then the assignment sets j to 206:
+</p>
+<p>&#8226; When pointers point to records, the syntax of references to fields of these
+records varies.
+</p>
+<p>In C and C++, if p points to a structure with a field named age, then
+(*p).age can be used to refer to that field. The expression p-&gt;age can be
+used as an alternative. The -&gt; operator combines dereferencing and field ref-
+erence.
+</p>
+<p>&#8226; Languages that provide pointers for heap allocation must include an explicit
+allocation operation, which may be a subprogram (malloc in C) or an operator
+(often called <b>new</b>).
+</p>
+<p>&#8226; Some languages also provide an explicit deallocation operation, such as
+<b>delete</b> in C++.</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-58 10/15
+Programming Language Concepts
+</p>
+<p><b>Pointer Problems
+</b></p>
+<p>&#8226; PL/I was the first high-level programming language to include pointer variables.
+Pointers in PL/I can refer to both heap-dynamic variables and other program
+variables.
+</p>
+<p>&#8226; The pointers of PL/I can lead to several kinds of programming errors. Some of
+these problems are also present in subsequent languages.
+</p>
+<p>&#8226; Some recent languages, such as Java, have replaced pointers completely with
+reference types, which, along with implicit deallocation, minimize the primary
+problems with pointers.
+</p>
+<p>&#8226; A <b>dangling pointer,</b> or <b>dangling reference,</b> is a pointer that contains the
+address of a heap-dynamic variable that has been deallocated.
+</p>
+<p>&#8226; Reasons why dangling pointers are dangerous:
+</p>
+<p>The location being pointed to may have been reallocated to some new heap-
+dynamic variable. Changing the value stored at the location will destroy the
+value of the new variable.
+</p>
+<p>The location may now be temporarily used by the storage management system,
+possibly as a pointer in a chain of available blocks of storage. Changing the
+value stored at the location may cause the storage manager to fail.
+</p>
+<p>&#8226; How a dangling pointer can be created in many languages:
+</p>
+<p>1. A new heap-dynamic variable is created and pointer p1 is set to point at it.
+2. Pointer p2 is assigned p1&#8217;s value.
+3. The heap-dynamic variable pointed to by p1 is explicitly deallocated (possi-
+</p>
+<p>bly setting p1 to nil). p2 is now a dangling pointer. If p1 is not modified, it
+is also dangling.
+</p>
+<p>&#8226; C++ example:
+</p>
+<p><b>int</b> *arrayPtr1;
+<b>int</b> *arrayPtr2 = <b>new</b> <b>int</b>[100];
+arrayPtr1 = arrayPtr2;
+<b>delete</b> [] arrayPtr2;   // arrayPtr1 and arrayPtr2 are dangling</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-59 10/15
+Programming Language Concepts
+</p>
+<p><b>Pointer Problems (Continued)
+</b></p>
+<p>&#8226; A <b>lost heap-dynamic variable</b> is a heap-dynamic variable that is no longer
+accessible to a program. Such variables are often called <b>garbage</b> because they
+are no longer useful, yet the space they occupy cannot be reallocated.
+</p>
+<p>&#8226; Lost heap-dynamic variables are most often created by the following sequence
+of operations:
+</p>
+<p>1. Pointer p1 is set to point to a newly created heap-dynamic variable.
+2. p1 is later set to point to another newly created heap-dynamic variable.
+</p>
+<p>The first heap-dynamic variable is now lost.
+</p>
+<p>&#8226; The problem of lost heap-dynamic variables is sometimes called <b>memory leak-
+age.</b></p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-60 10/15
+Programming Language Concepts
+</p>
+<p><b>Pointers in C and C++
+</b></p>
+<p>&#8226; C and C++ pointers can point to any variable. They can even point to memory
+cells that don&#8217;t represent variables, which is a common source of errors.
+</p>
+<p>&#8226; In C and C++, the ampersand (&amp;) operator produces the address of a variable.
+Example:
+</p>
+<p><b>int</b> *ptr;
+<b>int</b> count, init;
+&#8230;
+ptr = &amp;init;
+count = *ptr;
+</p>
+<p>The effect of the two assignments is to assign the value of init to count.
+</p>
+<p>&#8226; Pointers can be assigned the address of any variable of the correct type, or they
+can be assigned 0, which is used for nil.
+</p>
+<p>&#8226; C and C++ support three forms of pointer arithmetic:
+</p>
+<p>Adding an integer to a pointer
+Subtracting an integer from a pointer
+Subtracting two pointers
+</p>
+<p>&#8226; For example, if ptr is a pointer variable, then ptr + index is a legal expres-
+sion. The value of index is first scaled by the size of the memory cell to which
+ptr is pointing.
+</p>
+<p>&#8226; Pointer arithmetic is valid only with pointers to array elements.</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-61 10/15
+Programming Language Concepts
+</p>
+<p><b>Pointers in C and C++ (Continued)
+</b></p>
+<p>&#8226; Pointers and arrays are closely related in C and C++:
+</p>
+<p>An array name not followed by subscripts can be used as a pointer to the first
+element of the array.
+</p>
+<p>Pointers to arrays can be indexed as if they were array names.
+</p>
+<p>&#8226; Example:
+</p>
+<p><b>int</b> list[10];
+<b>int</b> *ptr;
+&#8230;
+ptr = list;
+</p>
+<p>ptr is assigned the address of list[0]. After this assignment, the following
+are equivalent:
+</p>
+<p>*(ptr + 1)     and list[1]
+*(ptr + index) and list[index]
+ptr[index]     and list[index]
+</p>
+<p>&#8226; Pointers have two additional uses in C and C++:
+</p>
+<p>Pointers can point to functions.
+Function parameters are often pointers, allowing functions to modify arguments
+</p>
+<p>passed to them.
+</p>
+<p>&#8226; C and C++ allow pointers of type void *, which can point at values of any
+type. Functions that deal with arbitrary memory addresses often have void *
+parameters.</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-62 10/15
+Programming Language Concepts
+</p>
+<p><b>Reference Types
+</b></p>
+<p>&#8226; A value of a <b>reference type</b> is similar to a pointer, except that it must refer to an
+object or other value in memory. Arithmetic cannot be performed on references.
+</p>
+<p>&#8226; A C++ reference variable is essentially an alias for another variable. It must be
+initialized at the time it is bound to storage, and it cannot refer to any other vari-
+able during its lifetime.
+</p>
+<p>&#8226; The declaration of a reference variable contains an ampersand (&amp;):
+</p>
+<p><b>int</b> result = 0;
+<b>int</b>&amp; ref_result = result;
+&#8230;
+ref_result = 100;
+</p>
+<p>ref_result is an alias for result.
+</p>
+<p>&#8226; In C++, reference types are used primarily for declaring parameters.
+</p>
+<p>&#8226; In Java, reference variables behave more like pointer variables that are implicitly
+dereferenced.
+</p>
+<p>&#8226; Properties of Java references:
+</p>
+<p>Must refer to objects.
+Can be modified to refer to different objects at different times.
+</p>
+<p>&#8226; Example:
+</p>
+<p>String str1;
+&#8230;
+str1 = &quot;This is a Java literal string&quot;;
+</p>
+<p>&#8226; Because Java objects are implicitly deallocated, dangling references are impossi-
+ble.</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-63 10/15
+Programming Language Concepts
+</p>
+<p><b>Reference Types (Continued)
+</b></p>
+<p>&#8226; C# includes both the references of Java and the pointers of C++. However, any
+subprogram that uses pointers must include the <b>unsafe</b> modifier.
+</p>
+<p>&#8226; All variables in Smalltalk, Python, Ruby, and Lua store references and are
+implicitly dereferenced.</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-64 10/15
+Programming Language Concepts
+</p>
+<p><b>Evaluation of Pointer Types
+</b></p>
+<p>&#8226; In many languages, pointers suffer from the dual problems of dangling pointers
+and garbage. Heap management is also a complex issue.
+</p>
+<p>&#8226; Hoare&#8217;s opinion of pointers: &#8220;Their introduction into high-level languages has
+been a step backward from which we may never recover.&#8221;
+</p>
+<p>&#8226; Still, pointers are essential for writing certain types of applications, such as
+device drivers.
+</p>
+<p>&#8226; The references of Java and C# provide some of the power and flexibility of
+pointers, without the hazards.</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-65 10/15
+Programming Language Concepts
+</p>
+<p><b>Implementation of Pointer and Reference Types
+</b></p>
+<p>&#8226; Pointers and references are typically stored as a single value.
+</p>
+<p>&#8226; On some platforms, addresses consist of more than one value.
+</p>
+<p>Intel microprocessors running in real mode represent addresses as two 16-bit
+values (the segment and the offset).</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-66 10/15
+Programming Language Concepts
+</p>
+<p><b>Solutions to the Dangling Pointer Problem
+</b></p>
+<p>&#8226; One proposed solution for the dangling pointer problem involves the use of
+<b>tombstones:
+</b></p>
+<p>All heap-dynamic variables are accompanied by a special cell, called a tomb-
+stone, that points to the heap-dynamic variable.
+</p>
+<p>Pointer variables point only at tombstones and never to heap-dynamic variables.
+When a heap-dynamic variable is deallocated, the tombstone remains but is set
+</p>
+<p>to nil, indicating that the heap-dynamic variable no longer exists.
+</p>
+<p>&#8226; Comparison of dynamic storage allocation with and without tombstones:</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-67 10/15
+Programming Language Concepts
+</p>
+<p><b>Solutions to the Dangling Pointer Problem (Continued)
+</b></p>
+<p>&#8226; The tombstone technique prevents a pointer from ever pointing to a deallocated
+variable. A reference to a pointer that points to a nil tombstone can be detected
+as an error.
+</p>
+<p>&#8226; Disadvantages of tombstones:
+</p>
+<p>Tombstones require extra space that can never reclaimed.
+Accessing a heap-dynamic variable requires an extra level of indirection.
+</p>
+<p>As a result, no widely used language uses tombstones.
+</p>
+<p>&#8226; An alternative to tombstones is the <b>locks-and-keys</b> approach used in the imple-
+mentation of UW-Pascal.
+</p>
+<p>A pointer is stored as a (key, address) pair, where the key is an integer value.
+Each heap-dynamic variable has a header cell that stores an integer lock value.
+</p>
+<p>&#8226; When a heap-dynamic variable is allocated, a lock value is created and placed
+both in the lock cell of the heap-dynamic variable and in the key cell of the
+pointer that is specified in the call to new.
+</p>
+<p>&#8226; Every access to a dereferenced pointer compares the key value of the pointer to
+the lock value in the heap-dynamic variable. If they match, the access is legal;
+otherwise, the access is treated as a run-time error.
+</p>
+<p>&#8226; Assignment of the pointer value to other variables must copy the key value.
+</p>
+<p>&#8226; When a heap-dynamic variable is deallocated with dispose, its lock value is
+set to an illegal lock value.
+</p>
+<p>&#8226; If a pointer other than the one specified in the dispose is dereferenced, its
+address value will still be intact, but its key value will no longer match the lock.
+</p>
+<p>&#8226; The best solution to the dangling pointer problem is to provide implicit dealloca-
+tion for heap-dynamic variables that are no longer useful. Lisp has always done
+this. Both Java and C# also use this approach for their heap-dynamic variables.</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-68 10/15
+Programming Language Concepts
+</p>
+<p><b>Heap Management
+</b></p>
+<p>&#8226; Heap management can be very complex.
+</p>
+<p>&#8226; Strategies for heap management vary, depending on whether all heap storage is
+allocated and deallocated in units of a single size or in variable-size segments.
+</p>
+<p>&#8226; <b>Single-Size Cells.</b> The simplest situation is when all allocation and deallocation
+is of a single-size cell. It is further simplified when every cell already contains a
+pointer.
+</p>
+<p>Many implementations of Lisp rely on single-size cells, each containing a pair of
+pointers.
+</p>
+<p>&#8226; In a single-size allocation heap, all available cells are linked together using the
+pointers in the cells, forming a list of available space. Allocation is a simple mat-
+ter of taking the required number of cells from this list when they are needed.
+</p>
+<p>&#8226; Deallocation is more complex. A cell can be pointed to by more than one
+pointer, making it difficult to determine when the cell is no longer useful.
+</p>
+<p>&#8226; Traditional garbage collection techniques:
+</p>
+<p><b>Reference counters.</b> Reclamation is incremental and is done when inaccessible
+cells are created.
+</p>
+<p><b>Mark-sweep.</b> Reclamation occurs only when the list of available space becomes
+empty.
+</p>
+<p>These two methods are sometimes called the <b>eager approach</b> and the <b>lazy
+approach,</b> respectively. Many variations of these methods have been developed.</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-69 10/15
+Programming Language Concepts
+</p>
+<p><b>Heap Management (Continued)
+</b></p>
+<p>&#8226; With the reference counter method, each cell contains a counter that keeps track
+of how many pointers are currently pointing to the cell.
+</p>
+<p>&#8226; When a pointer variable is made to point to a different cell, the reference counter
+for the old cell (if any) is decremented, and the reference counter for the new cell
+is incremented.
+</p>
+<p>&#8226; If the reference counter for a cell reaches zero, it means that no pointers are
+pointing to the cell, so the cell can be returned to the list of available space.
+</p>
+<p>&#8226; Problems with the reference counter method:
+</p>
+<p>If storage cells are relatively small, the space required for the counters is signifi-
+cant.
+</p>
+<p>The time required to maintain reference counters can hurt the performance of a
+program. Performance can be improved by <b>deferred reference counting,
+</b>which avoids reference counters for some pointers.
+</p>
+<p>Complications arise when a collection of cells is connected circularly, since each
+cell will have a reference counter value of at least 1.
+</p>
+<p>&#8226; The advantage of the reference counter approach is that it is intrinsically incre-
+mental and never causes significant delays in the execution of the application.
+</p>
+<p>&#8226; Mark-sweep garbage collection begins when there are no free cells (or the num-
+ber of available cells has dropped below a certain level).
+</p>
+<p>&#8226; Every heap cell has an extra indicator bit or field that is used by the collection
+algorithm.
+</p>
+<p>&#8226; Phases of mark-sweep garbage collection:
+</p>
+<p>1. All cells in the heap have their indicators set to indicate they are garbage.
+2. (Marking phase) Every pointer in the program is traced into the heap, and all
+</p>
+<p>reachable cells are marked as not being garbage.
+3. (Sweep phase) All cells that have not been marked as still in use are returned
+</p>
+<p>to the list of available space.</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-70 10/15
+Programming Language Concepts
+</p>
+<p><b>Heap Management (Continued)
+</b></p>
+<p>&#8226; A simple recursive marking algorithm:
+</p>
+<p><b>for</b> every pointer r <b>do
+</b>  mark(r)
+</p>
+<p><b>void</b> mark(cell *ptr) {
+  <b>if</b> (ptr != 0)
+    <b>if</b> (ptr-&gt;marker is not marked) {
+      set ptr-&gt;marker
+      mark(ptr-&gt;llink)
+      mark(ptr-&gt;rlink)
+    }
+}
+</p>
+<p>This algorithm assumes that all heap cells include a place for the mark, named
+marker, and two pointers named llink and rlink.
+</p>
+<p>&#8226; Example of the marking algorithm in action:</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-71 10/15
+Programming Language Concepts
+</p>
+<p><b>Heap Management (Continued)
+</b></p>
+<p>&#8226; The original mark-sweep algorithm was done only when a program had used all
+or nearly all of the storage in the heap. Problems with this approach:
+</p>
+<p>Significantly delays the application while garbage collection is being done.
+May yield only a small number of cells.
+</p>
+<p>&#8226; There are various ways to improve the mark-sweep algorithm.
+</p>
+<p><b>Incremental mark-sweep</b> garbage collection occurs more frequently, long
+before memory is exhausted. This strategy is more effective at reclaiming
+storage and reduces the delay in application execution.
+</p>
+<p>Another alternative is to perform the mark-sweep process on different portions
+of the heap at different times.</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-72 10/15
+Programming Language Concepts
+</p>
+<p><b>Heap Management (Continued)
+</b></p>
+<p>&#8226; <b>Variable-Size Cells.</b> Managing a heap from which variable-size cells are allo-
+cated is harder than managing one for single-size cells.
+</p>
+<p>&#8226; If mark-sweep garbage collection is used, problems arise:
+</p>
+<p>Setting the indicators of all cells in the heap to indicate that they are garbage is
+difficult, because the cells have different sizes. One solution is to store the
+size of each cell at the beginning of the cell.
+</p>
+<p>The marking process is nontrivial, because there is no predefined location for the
+pointer(s) in each cell. Some cells may not even contain pointers.
+</p>
+<p>&#8226; In addition, maintaining the list of available space is more difficult, because the
+sizes of cells vary.
+</p>
+<p>Initially, the list would contain a single cell consisting of all available space.
+Requests for segments would reduce the size of this block.
+Reclaimed cells would be added to the list.
+</p>
+<p>&#8226; Problems with this approach:
+</p>
+<p>Allocation gradually takes longer as the list becomes a collection of various-size
+blocks. Alternatives to using the first sufficiently large block on the list can
+shorten the search but require the list to be ordered by block size.
+</p>
+<p>The list may eventually fragment into a large number of very small blocks. At
+this point, adjacent blocks may need to be collapsed into larger blocks.
+</p>
+<p>&#8226; Using reference counters instead of mark-sweep garbage collection avoids the
+problems of marking, but the problem of maintaining the list of available space
+remains.</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-73 10/15
+Programming Language Concepts
+</p>
+<p><b>Type Checking
+</b></p>
+<p>&#8226; <b>Type checking</b> is the activity of ensuring that the operands of an operator are of
+compatible types.
+</p>
+<p>&#8226; For the purpose of discussing type checking, the concept of operands and opera-
+tors is generalized to include subprograms and assignment statements:
+</p>
+<p>Subprograms will be thought of as operators; parameters are operands.
+Assignment will be thought of as a binary operator.
+</p>
+<p>&#8226; A <b>compatible</b> type is one that is either legal for the operator or is allowed under
+language rules to be implicitly converted to a legal type. Such an automatic con-
+version is called a <b>coercion.
+</b></p>
+<p>&#8226; A <b>type error</b> is the application of an operator to an operand of an inappropriate
+type.
+</p>
+<p>&#8226; If all bindings of variables to types are static in a language, then type checking
+can nearly always be done statically. Dynamic type binding requires type check-
+ing at run time, which is called <b>dynamic type checking.
+</b></p>
+<p>Some languages, such as JavaScript and PHP, because of their dynamic type
+binding, allow only dynamic type checking.
+</p>
+<p>&#8226; It is better to detect errors at compile time than at run time because the earlier
+correction is usually less costly. The penalty for static checking is reduced pro-
+grammer flexibility.
+</p>
+<p>&#8226; Type checking is complicated when a language allows a memory cell to store
+values of different types at different times during execution. Examples:
+</p>
+<p>C and C++ unions
+Discriminated unions in ML, Haskell, and F#
+</p>
+<p>Type checking, if done at all, must be dynamic.</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-74 10/15
+Programming Language Concepts
+</p>
+<p><b>Strong Typing
+</b></p>
+<p>&#8226; One of the ideas in language design that became prominent in the 1970s was
+<b>strong typing.
+</b></p>
+<p>&#8226; A programming language is <b>strongly typed</b> if type errors are always detected,
+either at compile time or at run time.
+</p>
+<p>&#8226; C and C++ are not strongly typed. Both include union types, which are not fully
+type checked.
+</p>
+<p>&#8226; ML and F# are strongly typed. Java and C#, although they are based on C++, are
+nearly strongly typed.
+</p>
+<p>&#8226; Coercion rules have an important effect on the value of type checking.
+</p>
+<p>&#8226; Coercions usually match the programmer&#8217;s intentions. However, sometimes
+they have unexpected results, thus weakening the value of strong typing.
+</p>
+<p>&#8226; Languages with a great deal of coercion, like C and C++, are less reliable than
+those with no coercion, such as ML and F#.
+</p>
+<p>&#8226; Java and C# have half as many assignment type coercions as C++, so their error
+detection is better than that of C++.</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-75 10/15
+Programming Language Concepts
+</p>
+<p><b>Type Equivalence
+</b></p>
+<p>&#8226; Type compatibility rules dictate the types of operands that are acceptable for
+each operator. In some cases, the type of an operand can be implicitly converted
+to make it acceptable to the operator.
+</p>
+<p>&#8226; In the case of structured types (including arrays and records) and some types
+defined by the programmer, the rules are more complex. Coercion of these types
+is rare, so the issue is not type compatibility, but type equivalence.
+</p>
+<p>&#8226; Two types are <b>equivalent</b> if an operand of one type can be substituted for one of
+the other type, without coercion.
+</p>
+<p>&#8226; Perhaps the most important consequence of two variables having equivalent
+types is that the value of one variable can be assigned to the other variable.
+</p>
+<p>&#8226; Approaches to defining type equivalence:
+</p>
+<p><b>Name type equivalence:</b> Variables have equivalent types if they are defined
+either in the same declaration or in declarations that use the same type name.
+</p>
+<p><b>Structure type equivalence: </b>Variables have equivalent types if their types have
+identical structures.
+</p>
+<p>Variations of these approaches exist. Many languages use combinations of the
+two.
+</p>
+<p>&#8226; Name type equivalence is easy to implement but more restrictive.
+</p>
+<p>&#8226; Another problem with name type equivalence: In order for a structured type to
+be passed among subprograms through parameters, the type must be defined
+globally to the subprograms.</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-76 10/15
+Programming Language Concepts
+</p>
+<p><b>Type Equivalence (Continued)
+</b></p>
+<p>&#8226; Structure type equivalence is more flexible than name type equivalence but more
+difficult to implement.
+</p>
+<p>Determining name type equivalence requires only that type names match.
+Determining structure type equivalence requires comparing the entire structures
+</p>
+<p>of the types. This comparison is not always simple. In particular, a data struc-
+ture may contain a reference to its own type.
+</p>
+<p>&#8226; Determining structure type equivalence also requires answering difficult ques-
+tions. Examples:
+</p>
+<p>Are two record (<b>struct</b>) types equivalent if they have the same structure but
+different field names?
+</p>
+<p>Are two single-dimensioned array types equivalent if they have the same length
+and element type but different subscript ranges?
+</p>
+<p>&#8226; Structure type equivalence makes it impossible to differentiate between types
+with the same structure.</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-77 10/15
+Programming Language Concepts
+</p>
+<p><b>Type Equivalence (Continued)
+</b></p>
+<p>&#8226; Ada uses a form of name type equivalence but provides two type constructs,
+subtypes and derived types, that avoid problems associated with that approach.
+</p>
+<p>&#8226; A <b>derived type</b> is derived from an existing type (the parent type):
+</p>
+<p><b>type</b> Celsius <b>is</b> <b>new</b> Float;
+<b>type</b> Fahrenheit <b>is</b> <b>new</b> Float;
+</p>
+<p>&#8226; Properties of a derived type:
+</p>
+<p>Identical in structure to the parent type, but not equivalent to that type.
+Inherits all the properties of the parent type.
+Literals (such as 3.0) can be used with both the parent type and the derived type.
+May place range constraints on the parent type.
+</p>
+<p>&#8226; An Ada <b>subtype</b> is a possibly range-constrained version of an existing type:
+</p>
+<p><b>subtype</b> Small_Type <b>is</b> Integer <b>range</b> 0..99;
+</p>
+<p>A subtype is type-equivalent to its parent type.
+</p>
+<p>&#8226; Ada&#8217;s derived types are different from its subtypes:
+</p>
+<p><b>type</b> Derived_Small_Int <b>is</b> <b>new</b> Integer <b>range</b> 1..100;
+<b>subtype</b> Subrange_Small_Int <b>is</b> Integer <b>range</b> 1..100;
+</p>
+<p>Variables of type Derived_Small_Int are not compatible with variables of
+Integer type. However, variables of type Subrange_Small_Int are com-
+patible with variables of Integer type and any subtype of Integer.</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-78 10/15
+Programming Language Concepts
+</p>
+<p><b>Type Equivalence (Continued)
+</b></p>
+<p>&#8226; Ada&#8217;s unconstrained array types allow some flexibility while still enforcing
+name type equivalence. Consider the following example:
+</p>
+<p><b>type</b> Vector <b>is</b> <b>array</b> (Integer <b>range</b> &lt;&gt;) <b>of</b> Integer;
+Vector_1: Vector(1..10);
+Vector_2: Vector(11..20);
+</p>
+<p>The types of Vector_1 and Vector_2 are equivalent, even though the arrays
+have different subscript ranges, because they have the same type (Vector) and
+the same length.
+</p>
+<p>&#8226; Variables can be declared in many languages without using type names, creating
+anonymous types. An Ada example:
+</p>
+<p>A: <b>array </b>(1..10) <b>of</b> Integer;
+B: <b>array </b>(1..10) <b>of</b> Integer;
+</p>
+<p>A and B have anonymous types that are not equivalent, though they are structur-
+ally identical.
+</p>
+<p>&#8226; The following declaration creates two anonymous types, one for C and one for
+D:
+</p>
+<p>C, D: <b>array </b>(1..10) <b>of</b> Integer;
+</p>
+<p>These types are not equivalent. The effect is the same as if C and D were
+declared separately:
+</p>
+<p>C: <b>array</b> (1..10) <b>of</b> Integer;
+D: <b>array</b> (1..10) <b>of</b> Integer;
+</p>
+<p>In order for C and D to have equivalent types, they must be declared using a type
+name:
+</p>
+<p><b>type</b> List_10 <b>is</b> <b>array</b> (1..10) <b>of</b> Integer;
+C, D: List_10;</p>
+
+</div></div>
+<div style="page-break-before:always; page-break-after:always"><div><p>CSc 4330/6330 6-79 10/15
+Programming Language Concepts
+</p>
+<p><b>Type Equivalence (Continued)
+</b></p>
+<p>&#8226; C uses both name and structure type equivalence.
+</p>
+<p>Every struct and union definition creates a new type that is not equivalent
+to any other type, so name type equivalence is used.
+</p>
+<p>However, if two struct or union definitions appear in different files, struc-
+tural type equivalence is used instead.
+</p>
+<p>Other nonscalar types use structure type equivalence.
+</p>
+<p>&#8226; C++ is like C except there is no exception for structure and union types defined
+in different files.
+</p>
+<p>&#8226; The typedef construct in C and C++ does not introduce a new type. It simply
+defines a new name for an existing type.</p>
+
+</div></div>
+</body>
