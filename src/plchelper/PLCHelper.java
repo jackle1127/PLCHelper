@@ -19,7 +19,7 @@ public class PLCHelper extends javax.swing.JFrame {
     JFileChooser chooser = new JFileChooser();
     ArrayList<String> definitionsList = new ArrayList<>();
     ArrayList<String> keysList = new ArrayList<>();
-    PlzWait waitFrame = new PlzWait();
+    PlzWait frmWait = new PlzWait();
 
     public PLCHelper() {
         initComponents();
@@ -33,88 +33,88 @@ public class PLCHelper extends javax.swing.JFrame {
     private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
-        kToD = new javax.swing.JRadioButton();
-        dToK = new javax.swing.JRadioButton();
-        jSplitPane1 = new javax.swing.JSplitPane();
+        rdioKToD = new javax.swing.JRadioButton();
+        rdioDToK = new javax.swing.JRadioButton();
+        splpMainSplitPane = new javax.swing.JSplitPane();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        lstMainList = new javax.swing.JList<>();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jButton1 = new javax.swing.JButton();
-        jMenuBar1 = new javax.swing.JMenuBar();
+        txtAnswer = new javax.swing.JTextArea();
+        btnRefresh = new javax.swing.JButton();
+        mbarMain = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
+        mnuOpen = new javax.swing.JMenuItem();
+        mnuExit = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        buttonGroup1.add(kToD);
-        kToD.setText("Key to definition");
-        kToD.addActionListener(new java.awt.event.ActionListener() {
+        buttonGroup1.add(rdioKToD);
+        rdioKToD.setText("Key to definition");
+        rdioKToD.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                kToDActionPerformed(evt);
+                rdioKToDActionPerformed(evt);
             }
         });
 
-        buttonGroup1.add(dToK);
-        dToK.setSelected(true);
-        dToK.setText("Definition to key");
-        dToK.addActionListener(new java.awt.event.ActionListener() {
+        buttonGroup1.add(rdioDToK);
+        rdioDToK.setSelected(true);
+        rdioDToK.setText("Definition to key");
+        rdioDToK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                dToKActionPerformed(evt);
+                rdioDToKActionPerformed(evt);
             }
         });
 
-        jSplitPane1.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
-        jSplitPane1.setResizeWeight(0.8);
+        splpMainSplitPane.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
+        splpMainSplitPane.setResizeWeight(0.8);
 
-        jList1.setModel(new DefaultListModel());
-        jList1.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+        lstMainList.setModel(new DefaultListModel());
+        lstMainList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                jList1ValueChanged(evt);
+                lstMainListValueChanged(evt);
             }
         });
-        jScrollPane1.setViewportView(jList1);
+        jScrollPane1.setViewportView(lstMainList);
 
-        jSplitPane1.setLeftComponent(jScrollPane1);
+        splpMainSplitPane.setLeftComponent(jScrollPane1);
 
-        jTextArea1.setEditable(false);
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane2.setViewportView(jTextArea1);
+        txtAnswer.setEditable(false);
+        txtAnswer.setColumns(20);
+        txtAnswer.setRows(5);
+        jScrollPane2.setViewportView(txtAnswer);
 
-        jSplitPane1.setRightComponent(jScrollPane2);
+        splpMainSplitPane.setRightComponent(jScrollPane2);
 
-        jButton1.setText("Refresh");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnRefresh.setText("Refresh");
+        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnRefreshActionPerformed(evt);
             }
         });
 
         jMenu1.setText("File");
 
-        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem1.setText("Open PDF");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        mnuOpen.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
+        mnuOpen.setText("Open PDF");
+        mnuOpen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                mnuOpenActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem1);
+        jMenu1.add(mnuOpen);
 
-        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem2.setText("Exit");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+        mnuExit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_MASK));
+        mnuExit.setText("Exit");
+        mnuExit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
+                mnuExitActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem2);
+        jMenu1.add(mnuExit);
 
-        jMenuBar1.add(jMenu1);
+        mbarMain.add(jMenu1);
 
-        setJMenuBar(jMenuBar1);
+        setJMenuBar(mbarMain);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -123,13 +123,13 @@ public class PLCHelper extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 453, Short.MAX_VALUE)
+                    .addComponent(splpMainSplitPane, javax.swing.GroupLayout.DEFAULT_SIZE, 453, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1)
+                        .addComponent(btnRefresh)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(dToK)
+                        .addComponent(rdioDToK)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(kToD)
+                        .addComponent(rdioKToD)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -138,43 +138,43 @@ public class PLCHelper extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(kToD)
-                    .addComponent(dToK)
-                    .addComponent(jButton1))
+                    .addComponent(rdioKToD)
+                    .addComponent(rdioDToK)
+                    .addComponent(btnRefresh))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
+                .addComponent(splpMainSplitPane, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void dToKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dToKActionPerformed
+    private void rdioDToKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdioDToKActionPerformed
         refreshList();
-    }//GEN-LAST:event_dToKActionPerformed
+    }//GEN-LAST:event_rdioDToKActionPerformed
 
-    private void kToDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kToDActionPerformed
+    private void rdioKToDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdioKToDActionPerformed
         refreshList();
-    }//GEN-LAST:event_kToDActionPerformed
+    }//GEN-LAST:event_rdioKToDActionPerformed
 
-    private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList1ValueChanged
+    private void lstMainListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstMainListValueChanged
         try {
-            if (kToD.isSelected()) {
-                jTextArea1.setText("Answer: \n" + definitionsList.get(jList1.getSelectedIndex()));
+            if (rdioKToD.isSelected()) {
+                txtAnswer.setText("Answer: \n" + definitionsList.get(lstMainList.getSelectedIndex()));
             } else {
-                jTextArea1.setText("Answer: \n" + keysList.get(jList1.getSelectedIndex()));
+                txtAnswer.setText("Answer: \n" + keysList.get(lstMainList.getSelectedIndex()));
             }
-            this.setTitle((jList1.getSelectedIndex() + 1) + "/"
+            this.setTitle((lstMainList.getSelectedIndex() + 1) + "/"
                     + definitionsList.size() + " entries");
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }//GEN-LAST:event_jList1ValueChanged
+    }//GEN-LAST:event_lstMainListValueChanged
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void mnuOpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuOpenActionPerformed
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-            waitFrame.show();
-            Thread thready = new Thread(new Runnable() {
+            frmWait.show();
+            Thread tempThread = new Thread(new Runnable() {
                 @Override
                 public void run() {
                     definitionsList.clear();
@@ -257,26 +257,26 @@ public class PLCHelper extends javax.swing.JFrame {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    waitFrame.hide();
+                    frmWait.hide();
                     refreshList();
                 }
             });
-            thready.start();
+            tempThread.start();
         }
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    }//GEN-LAST:event_mnuOpenActionPerformed
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+    private void mnuExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuExitActionPerformed
         System.exit(0);
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
+    }//GEN-LAST:event_mnuExitActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
         refreshList();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnRefreshActionPerformed
 
     void refreshList() {
-        DefaultListModel listModel = (DefaultListModel) jList1.getModel();
+        DefaultListModel listModel = (DefaultListModel) lstMainList.getModel();
         listModel.removeAllElements();
-        if (kToD.isSelected()) {
+        if (rdioKToD.isSelected()) {
             for (String key : keysList) {
                 listModel.addElement(key);
             }
@@ -324,18 +324,18 @@ public class PLCHelper extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnRefresh;
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JRadioButton dToK;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JList<String> jList1;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JSplitPane jSplitPane1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JRadioButton kToD;
+    private javax.swing.JList<String> lstMainList;
+    private javax.swing.JMenuBar mbarMain;
+    private javax.swing.JMenuItem mnuExit;
+    private javax.swing.JMenuItem mnuOpen;
+    private javax.swing.JRadioButton rdioDToK;
+    private javax.swing.JRadioButton rdioKToD;
+    private javax.swing.JSplitPane splpMainSplitPane;
+    private javax.swing.JTextArea txtAnswer;
     // End of variables declaration//GEN-END:variables
 }

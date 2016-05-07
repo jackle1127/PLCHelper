@@ -20,7 +20,7 @@ public class PlzWait extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dots = (dots + 1) % 4;
-                jLabel2.setText("Loading plz wait" + "...".substring(0, dots));
+                lblLoadingText.setText("Loading plz wait" + "...".substring(0, dots));
             }
         });
         timer.start();
@@ -30,32 +30,32 @@ public class PlzWait extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        lblWaitIcon = new javax.swing.JLabel();
+        lblLoadingText = new javax.swing.JLabel();
 
         setAlwaysOnTop(true);
         setUndecorated(true);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/plchelper/loading.gif"))); // NOI18N
+        lblWaitIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/plchelper/loading.gif"))); // NOI18N
 
-        jLabel2.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
-        jLabel2.setText("Loading plz wait");
+        lblLoadingText.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
+        lblLoadingText.setText("Loading plz wait");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1)
+            .addComponent(lblWaitIcon)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel2))
+                .addComponent(lblLoadingText))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jLabel1)
+                .addComponent(lblWaitIcon)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel2)
+                .addComponent(lblLoadingText)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -98,7 +98,7 @@ public class PlzWait extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel lblLoadingText;
+    private javax.swing.JLabel lblWaitIcon;
     // End of variables declaration//GEN-END:variables
 }
